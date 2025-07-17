@@ -4,6 +4,7 @@ const Form = () => {
     const [task, setTask] = useState([])
     const [newTask, setNewTask] = useState('')
 
+    // crear usuario
     useEffect(() => {
         fetch('https://playground.4geeks.com/todo/users/cyttariasp', {
             method: "POST",
@@ -25,13 +26,22 @@ const Form = () => {
             .catch(err => console.log(err));
     }, []);
 
-    useEffect(() => {
-        fetch('https://playground.4geeks.com/todo/users/cyttariasp')
-            .then(res => res.json())
+    // listas de tareas
+    const getTodos = () => {
+        fetch('https://playground.4geeks.com/todo/users/cyttariasp', {
+        method: "GET", 
+        headers: {
+            "content-type": "application"
+        },
+    })
+            .then(response => response.json())
             .then(data => setTask(data.todos))
-            .catch(err => console.log(err));
-    }, []);
+            .catch(error => console.log(error));
+    };
 
+    useEffect(() => {
+        getTodos()
+    }, [])
 
     const handleInputChange = (e) => {
         setNewTask(e.target.value)
